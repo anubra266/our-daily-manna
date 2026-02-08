@@ -5,6 +5,7 @@ import type { AudioPlayer } from 'expo-audio';
 type AudioContextValue = {
   currentUri: string | null;
   currentTrackTitle: string | null;
+  currentPostId: number | null;
   setTrack: (uri: string | null) => void;
   setTrackAndPlay: (uri: string, options?: { title?: string; postId?: number }) => void;
   play: () => void;
@@ -41,6 +42,7 @@ const SEEK_STEP = 10;
 export function AudioProvider({ children }: { children: React.ReactNode }) {
   const [currentUri, setCurrentUri] = useState<string | null>(null);
   const [currentTrackTitle, setCurrentTrackTitle] = useState<string | null>(null);
+  const [currentPostId, setCurrentPostId] = useState<number | null>(null);
   const player = useAudioPlayer(currentUri ? { uri: currentUri } : null, {
     updateInterval: 250,
   });
@@ -69,7 +71,10 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
 
   const setTrack = useCallback((uri: string | null) => {
     setCurrentUri(uri);
-    if (!uri) setCurrentTrackTitle(null);
+    if (!uri) {
+      setCurrentTrackTitle(null);
+      setCurrentPostId(null);
+    }
   }, []);
 
   const pendingPlayRef = React.useRef(false);
@@ -79,6 +84,7 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
     const resolvedUri = options?.postId != null ? `${uri}${separator}post=${options.postId}` : uri;
     setCurrentUri(resolvedUri);
     setCurrentTrackTitle(options?.title ?? null);
+    setCurrentPostId(options?.postId ?? null);
     pendingPlayRef.current = true;
   }, []);
 
@@ -112,6 +118,7 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
   const value: AudioContextValue = {
     currentUri,
     currentTrackTitle,
+    currentPostId,
     setTrack,
     setTrackAndPlay,
     play,

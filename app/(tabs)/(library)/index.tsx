@@ -176,9 +176,11 @@ export default function LibraryScreen() {
     </View>
   );
 
+  const screenBg = Colors[isDark ? "dark" : "light"].background;
+
   return (
     <ScrollView
-      style={styles.container}
+      style={[styles.container, { backgroundColor: screenBg }]}
       contentContainerStyle={[
         styles.scrollContent,
         // items.length === 0 && styles.scrollContentEmpty,

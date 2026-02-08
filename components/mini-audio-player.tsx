@@ -1,9 +1,9 @@
 import { Ionicons } from "@expo/vector-icons";
+import { useRouter } from "expo-router";
 import { NativeTabs } from "expo-router/unstable-native-tabs";
-import React, { useCallback, useState } from "react";
+import React, { useCallback } from "react";
 import {
   ActivityIndicator,
-  LayoutChangeEvent,
   Pressable,
   StyleSheet,
   View,
@@ -21,93 +21,89 @@ export function MiniAudioPlayer() {
   const isDark = colorScheme === "dark";
   const theme = Colors[isDark ? "dark" : "light"];
   const accent = useAccentColor().accent;
+  const router = useRouter();
   const {
     currentUri,
     currentTrackTitle,
+    currentPostId,
     isPlaying,
     isLoading,
     duration,
     currentTime,
     progress,
-    seekTo,
     toggle,
   } = useAudio();
-  const [trackWidth, setTrackWidth] = useState(0);
-
-  const onSeekBarLayout = useCallback((e: LayoutChangeEvent) => {
-    setTrackWidth(e.nativeEvent.layout.width);
-  }, []);
-
-  const handleSeek = useCallback(
-    (event: { nativeEvent: { locationX: number } }) => {
-      if (!trackWidth || duration <= 0) return;
-      const ratio = Math.max(0, Math.min(1, event.nativeEvent.locationX / trackWidth));
-      seekTo(ratio * duration);
-    },
-    [duration, seekTo, trackWidth]
-  );
+  const openDevotional = useCallback(() => {
+    if (currentPostId != null) {
+      router.push(`/(tabs)/(home)/devotional/${currentPostId}`);
+    }
+  }, [currentPostId, router]);
 
   if (!currentUri) return null;
 
   const showSeekBar = placement !== "inline";
 
+  const canOpenDevotional = currentPostId != null;
+
   return (
     <View style={styles.container}>
-      {showSeekBar && (
-        <Pressable
-          style={styles.seekBarWrap}
-          onLayout={onSeekBarLayout}
-          onPress={handleSeek}
-          disabled={isLoading || duration <= 0}
-        >
+      <Pressable
+        style={styles.mainTapArea}
+        onPress={openDevotional}
+        disabled={!canOpenDevotional}
+      >
+        {showSeekBar && (
+          <View style={styles.seekBarWrap}>
+            <View
+              style={[
+                styles.seekBarTrack,
+                {
+                  backgroundColor: isDark
+                    ? "rgba(255,255,255,0.12)"
+                    : "rgba(0,0,0,0.08)",
+                },
+              ]}
+            >
+              <View
+                style={[
+                  styles.seekBarFill,
+                  { width: `${progress * 100}%`, backgroundColor: accent },
+                ]}
+              />
+            </View>
+          </View>
+        )}
+        <View style={styles.row}>
           <View
             style={[
-              styles.seekBarTrack,
+              styles.art,
               {
                 backgroundColor: isDark
-                  ? "rgba(255,255,255,0.12)"
-                  : "rgba(0,0,0,0.08)",
+                  ? "rgba(255,255,255,0.1)"
+                  : "rgba(0,0,0,0.06)",
               },
             ]}
           >
-            <View
-              style={[
-                styles.seekBarFill,
-                { width: `${progress * 100}%`, backgroundColor: accent },
-              ]}
-            />
+            <Ionicons name="musical-notes" size={18} color={theme.text} />
           </View>
-        </Pressable>
-      )}
-      <View style={styles.row}>
-      <View
-        style={[
-          styles.art,
-          {
-            backgroundColor: isDark
-              ? "rgba(255,255,255,0.1)"
-              : "rgba(0,0,0,0.06)",
-          },
-        ]}
-      >
-        <Ionicons name="musical-notes" size={18} color={theme.text} />
-      </View>
-      <View style={styles.textWrap}>
-        <ThemedText
-          type="defaultSemiBold"
-          style={[styles.title, { color: theme.text }]}
-          numberOfLines={1}
-        >
-          {currentTrackTitle || "Now playing"}
-        </ThemedText>
-        <ThemedText
-          style={[styles.time, { color: theme.muted ?? theme.icon }]}
-          numberOfLines={1}
-          allowFontScaling={false}
-        >
-          {formatTime(currentTime)} / {formatTime(duration)}
-        </ThemedText>
-      </View>
+          <View style={styles.textWrap}>
+            <ThemedText
+              type="defaultSemiBold"
+              style={[styles.title, { color: theme.text }]}
+              numberOfLines={1}
+            >
+              {currentTrackTitle || "Now playing"}
+            </ThemedText>
+            <ThemedText
+              style={[styles.time, { color: theme.muted ?? theme.icon }]}
+              numberOfLines={1}
+              allowFontScaling={false}
+            >
+              {formatTime(currentTime)} / {formatTime(duration)}
+            </ThemedText>
+          </View>
+        </View>
+      </Pressable>
       <Pressable
         hitSlop={10}
         style={({ pressed }) => [
@@ -128,15 +124,20 @@ export function MiniAudioPlayer() {
         )}
       </Pressable>
     </View>
-    </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
+    flexDirection: "row",
+    alignItems: "center",
     alignSelf: "stretch",
     flex: 1,
     borderRadius: 40,
+  },
+  mainTapArea: {
+    flex: 1,
+    minWidth: 0,
   },
   seekBarWrap: {
     height: 4,
