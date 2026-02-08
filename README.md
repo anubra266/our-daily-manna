@@ -102,4 +102,4 @@ Submit to stores with `eas submit` (see [EAS Submit](https://docs.expo.dev/submi
 
 ## License
 
-Private project.
+MIT — see [LICENSE](LICENSE).
