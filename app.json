@@ -11,7 +11,7 @@
       "policy": "appVersion"
     },
     "updates": {
-      "url": "https://u.expo.dev/24423ace-ac64-42c1-80e2-90303b594862",
+      "url": "https://u.expo.dev/c59a5a74-504f-4ce7-bef9-b57c6a433fe9",
       "enabled": true
     },
     "ios": {
@@ -26,6 +26,7 @@
       "bundleIdentifier": "com.anubra266.thedailymanna"
     },
     "android": {
+      "package": "com.anubra266.ourdailymanna",
       "adaptiveIcon": {
         "backgroundColor": "#E6F4FE",
         "foregroundImage": "./assets/images/android-icon-foreground.png",
@@ -80,7 +81,7 @@
     "extra": {
       "router": {},
       "eas": {
-        "projectId": "24423ace-ac64-42c1-80e2-90303b594862"
+        "projectId": "c59a5a74-504f-4ce7-bef9-b57c6a433fe9"
       }
     },
     "owner": "anubra266"
