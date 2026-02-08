@@ -35,6 +35,13 @@ npm run reset-project
 
 This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
 
+## EAS Updates (OTA)
+
+The app is configured for [expo-updates](https://docs.expo.dev/versions/latest/sdk/updates/). To enable over-the-air updates:
+
+1. Run `eas init` to create/link an EAS project.
+2. In **app.json**, replace `YOUR_EAS_PROJECT_ID` in `expo.updates.url` with your EAS project ID (from the Expo dashboard or `eas project:info`).
+
 ## Learn more
 
 To learn more about developing your project with Expo, look at the following resources:

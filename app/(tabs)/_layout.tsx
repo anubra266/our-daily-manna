@@ -1,35 +1,89 @@
-import { Tabs } from 'expo-router';
-import React from 'react';
+import { NativeTabs } from "expo-router/unstable-native-tabs";
+import React from "react";
+import { DynamicColorIOS, Platform } from "react-native";
+import { Ionicons } from "@expo/vector-icons";
 
-import { HapticTab } from '@/components/haptic-tab';
-import { IconSymbol } from '@/components/ui/icon-symbol';
-import { Colors } from '@/constants/theme';
-import { useColorScheme } from '@/hooks/use-color-scheme';
+import { MiniAudioPlayer } from "@/components/mini-audio-player";
+import { useAccentColor } from "@/contexts/accent-color";
+import { useAudio } from "@/contexts/audio-context";
+
+const tabIconDefault =
+  Platform.OS === "ios"
+    ? DynamicColorIOS({ light: "#7A7A7A", dark: "#4A4A4A" })
+    : "#7A7A7A";
 
 export default function TabLayout() {
-  const colorScheme = useColorScheme();
+  const { accent } = useAccentColor();
+  const { currentUri } = useAudio();
 
   return (
-    <Tabs
-      screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
-        headerShown: false,
-        tabBarButton: HapticTab,
-      }}>
-      <Tabs.Screen
-        name="index"
-        options={{
-          title: 'Home',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="house.fill" color={color} />,
-        }}
-      />
-      <Tabs.Screen
-        name="explore"
-        options={{
-          title: 'Explore',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="paperplane.fill" color={color} />,
-        }}
-      />
-    </Tabs>
+    <NativeTabs
+      minimizeBehavior="onScrollDown"
+      iconColor={{
+        default: tabIconDefault,
+        selected: accent,
+      }}
+    >
+      {currentUri ? (
+        <NativeTabs.BottomAccessory>
+          <MiniAudioPlayer />
+        </NativeTabs.BottomAccessory>
+      ) : null}
+      <NativeTabs.Trigger name="(home)">
+        <NativeTabs.Trigger.Label>Home</NativeTabs.Trigger.Label>
+        <NativeTabs.Trigger.Icon
+          src={{
+            default: (
+              <NativeTabs.Trigger.VectorIcon
+                family={Ionicons}
+                name={"home-outline"}
+              />
+            ),
+            selected: (
+              <NativeTabs.Trigger.VectorIcon family={Ionicons} name={"home"} />
+            ),
+          }}
+        />
+      </NativeTabs.Trigger>
+      <NativeTabs.Trigger name="(library)">
+        <NativeTabs.Trigger.Label>Library</NativeTabs.Trigger.Label>
+        <NativeTabs.Trigger.Icon
+          src={{
+            default: (
+              <NativeTabs.Trigger.VectorIcon
+                family={Ionicons}
+                name={"book-outline"}
+              />
+            ),
+            selected: (
+              <NativeTabs.Trigger.VectorIcon family={Ionicons} name={"book"} />
+            ),
+          }}
+        />
+      </NativeTabs.Trigger>
+      <NativeTabs.Trigger name="(search)" role="search">
+        <NativeTabs.Trigger.Label>Discover</NativeTabs.Trigger.Label>
+        <NativeTabs.Trigger.Icon sf={"magnifyingglass"} />
+      </NativeTabs.Trigger>
+      <NativeTabs.Trigger name="(settings)">
+        <NativeTabs.Trigger.Label>Settings</NativeTabs.Trigger.Label>
+        <NativeTabs.Trigger.Icon
+          src={{
+            default: (
+              <NativeTabs.Trigger.VectorIcon
+                family={Ionicons}
+                name={"settings-outline"}
+              />
+            ),
+            selected: (
+              <NativeTabs.Trigger.VectorIcon
+                family={Ionicons}
+                name={"settings"}
+              />
+            ),
+          }}
+        />
+      </NativeTabs.Trigger>
+    </NativeTabs>
   );
 }

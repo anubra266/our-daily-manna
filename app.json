@@ -7,9 +7,23 @@
     "icon": "./assets/images/icon.png",
     "scheme": "thedailymanna",
     "userInterfaceStyle": "automatic",
-    "newArchEnabled": true,
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/24423ace-ac64-42c1-80e2-90303b594862",
+      "enabled": true
+    },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "infoPlist": {
+        "UIBackgroundModes": [
+          "audio",
+          "audio"
+        ],
+        "ITSAppUsesNonExemptEncryption": false
+      },
+      "bundleIdentifier": "com.anubra266.thedailymanna"
     },
     "android": {
       "adaptiveIcon": {
@@ -19,7 +33,13 @@
         "monochromeImage": "./assets/images/android-icon-monochrome.png"
       },
       "edgeToEdgeEnabled": true,
-      "predictiveBackGestureEnabled": false
+      "predictiveBackGestureEnabled": false,
+      "permissions": [
+        "RECEIVE_BOOT_COMPLETED",
+        "VIBRATE",
+        "android.permission.RECORD_AUDIO",
+        "android.permission.MODIFY_AUDIO_SETTINGS"
+      ]
     },
     "web": {
       "output": "static",
@@ -27,6 +47,15 @@
     },
     "plugins": [
       "expo-router",
+      "expo-updates",
+      [
+        "expo-notifications",
+        {
+          "icon": "./assets/images/icon.png",
+          "color": "#0a7ea4",
+          "sounds": []
+        }
+      ],
       [
         "expo-splash-screen",
         {
@@ -38,11 +67,22 @@
             "backgroundColor": "#000000"
           }
         }
-      ]
+      ],
+      "expo-sqlite",
+      "expo-font",
+      "expo-image",
+      "expo-audio"
     ],
     "experiments": {
       "typedRoutes": true,
       "reactCompiler": true
-    }
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "24423ace-ac64-42c1-80e2-90303b594862"
+      }
+    },
+    "owner": "anubra266"
   }
 }
