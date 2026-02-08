@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "the-daily-manna",
-    "slug": "the-daily-manna",
+    "name": "Our Daily Manna",
+    "slug": "our-daily-manna",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",

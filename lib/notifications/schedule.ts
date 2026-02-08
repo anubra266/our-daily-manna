@@ -46,7 +46,7 @@ export async function scheduleDailyReminder(hour: number, minute: number): Promi
 
   if (Platform.OS === 'android') {
     await Notifications.setNotificationChannelAsync('default', {
-      name: 'Daily Manna',
+      name: 'Our Daily Manna',
       importance: Notifications.AndroidImportance.DEFAULT,
       sound: 'default',
     });
@@ -57,7 +57,7 @@ export async function scheduleDailyReminder(hour: number, minute: number): Promi
   await Notifications.scheduleNotificationAsync({
     identifier: DAILY_REMINDER_ID,
     content: {
-      title: 'The Daily Manna',
+      title: 'Our Daily Manna',
       body,
       sound: 'default',
     },
