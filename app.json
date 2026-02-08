@@ -23,7 +23,7 @@
         ],
         "ITSAppUsesNonExemptEncryption": false
       },
-      "bundleIdentifier": "com.anubra266.thedailymanna"
+      "bundleIdentifier": "com.anubra266.ourdailymanna"
     },
     "android": {
       "package": "com.anubra266.ourdailymanna",
