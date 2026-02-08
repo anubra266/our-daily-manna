@@ -21,8 +21,7 @@
     "preview": {},
     "production": {
       "ios": {
-        "appleId": "anubra266@gmail.com",
-        "ascAppId": "6757832484"
+        "appleId": "anubra266@gmail.com"
       },
       "android": {}
     }
