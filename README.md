@@ -2,6 +2,8 @@
 
 A cross-platform devotional app built with Expo. Read daily devotionals, browse by category, save favorites, and listen to audio—with a daily reminder to keep you consistent.
 
+![App screenshots](assets/images/screenshots.png)
+
 ## Features
 
 - **Today’s devotional** — Focused home view with the current day’s reading
