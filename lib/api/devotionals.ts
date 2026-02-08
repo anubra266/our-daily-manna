@@ -52,5 +52,12 @@ export async function getPosts(params: wp.GetPostsParams): Promise<Devotional[]>
 export { getTodaysPosts } from '@/lib/api/wordpress';
 
 // Re-export cache helpers for Library and Search
-export { getAllCached, searchCached, markAsRead, setSaved, isSaved } from '@/lib/db/cache';
+export {
+  getAllCached,
+  getAdjacentIds,
+  searchCached,
+  markAsRead,
+  setSaved,
+  isSaved,
+} from '@/lib/db/cache';
 export type { GetAllCachedOptions } from '@/lib/db/cache';

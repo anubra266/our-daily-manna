@@ -164,6 +164,29 @@ export interface GetAllCachedOptions {
   savedOnly?: boolean;
 }
 
+/** Previous = older (date < current). Next = newer (date > current). Same category. */
+export async function getAdjacentIds(
+  category: DevotionalCategory,
+  date: string
+): Promise<{ prevId: number | null; nextId: number | null }> {
+  const db = await getDb();
+  if (!db) return { prevId: null, nextId: null };
+  const prevRow = await db.getFirstAsync<{ id: number }>(
+    'SELECT id FROM devotionals WHERE category = ? AND date < ? ORDER BY date DESC LIMIT 1',
+    category,
+    date
+  );
+  const nextRow = await db.getFirstAsync<{ id: number }>(
+    'SELECT id FROM devotionals WHERE category = ? AND date > ? ORDER BY date ASC LIMIT 1',
+    category,
+    date
+  );
+  return {
+    prevId: prevRow?.id ?? null,
+    nextId: nextRow?.id ?? null,
+  };
+}
+
 export async function getAllCached(opts: GetAllCachedOptions = {}): Promise<Devotional[]> {
   const db = await getDb();
   if (!db) return [];

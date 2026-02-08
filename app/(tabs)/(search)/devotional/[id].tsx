@@ -1,5 +1,5 @@
 import { Ionicons } from '@expo/vector-icons';
-import { useLocalSearchParams, useNavigation } from 'expo-router';
+import { useLocalSearchParams, useNavigation, useRouter } from 'expo-router';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useEffect } from 'react';
 import { Image } from 'expo-image';
@@ -8,12 +8,15 @@ import { Pressable, ScrollView, StyleSheet, View } from 'react-native';
 import { useAccentColor } from '@/contexts/accent-color';
 import { useAudio } from '@/contexts/audio-context';
 import { STREAK_QUERY_KEY, WEEK_STATUS_QUERY_KEY } from '@/hooks/use-streak';
-import { getPostById, isSaved, markAsRead, setSaved } from '@/lib/api/devotionals';
+import { getAdjacentIds, getPostById, isSaved, markAsRead, setSaved } from '@/lib/api/devotionals';
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
 
+const DEVOTIONAL_PATH = '/(tabs)/(search)/devotional';
+
 export default function DiscoverDevotionalReaderScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
+  const router = useRouter();
   const navigation = useNavigation();
   const queryClient = useQueryClient();
   const idNum = id ? parseInt(id, 10) : 0;
@@ -28,6 +31,12 @@ export default function DiscoverDevotionalReaderScreen() {
     queryKey: ['saved', idNum],
     queryFn: () => isSaved(idNum),
     enabled: idNum > 0,
+  });
+
+  const { data: adjacent } = useQuery({
+    queryKey: ['adjacent', devotional?.category, devotional?.date],
+    queryFn: () => getAdjacentIds(devotional!.category, devotional!.date),
+    enabled: Boolean(devotional?.category != null && devotional?.date),
   });
 
   const { accent } = useAccentColor();
@@ -141,6 +150,33 @@ export default function DiscoverDevotionalReaderScreen() {
           <ThemedText style={styles.thoughtText}>{devotional.thoughtForDay}</ThemedText>
         </View>
       ) : null}
+
+      {(adjacent?.prevId != null || adjacent?.nextId != null) && (
+        <View style={styles.prevNextRow}>
+          {adjacent?.prevId != null ? (
+            <Pressable
+              style={({ pressed }) => [styles.prevNextButton, pressed && styles.prevNextPressed]}
+              onPress={() => router.push(`${DEVOTIONAL_PATH}/${adjacent.prevId}`)}
+            >
+              <Ionicons name="chevron-back" size={20} color={accent} />
+              <ThemedText style={[styles.prevNextLabel, { color: accent }]}>Previous</ThemedText>
+            </Pressable>
+          ) : (
+            <View style={styles.prevNextPlaceholder} />
+          )}
+          {adjacent?.nextId != null ? (
+            <Pressable
+              style={({ pressed }) => [styles.prevNextButton, pressed && styles.prevNextPressed]}
+              onPress={() => router.push(`${DEVOTIONAL_PATH}/${adjacent.nextId}`)}
+            >
+              <ThemedText style={[styles.prevNextLabel, { color: accent }]}>Next</ThemedText>
+              <Ionicons name="chevron-forward" size={20} color={accent} />
+            </Pressable>
+          ) : (
+            <View style={styles.prevNextPlaceholder} />
+          )}
+        </View>
+      )}
     </ScrollView>
   );
 }
@@ -178,4 +214,17 @@ const styles = StyleSheet.create({
   },
   thoughtLabel: { opacity: 0.9 },
   thoughtText: { fontStyle: 'italic', lineHeight: 22 },
+  prevNextRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginTop: 24,
+    paddingTop: 20,
+    borderTopWidth: StyleSheet.hairlineWidth,
+    borderTopColor: 'rgba(0,0,0,0.1)',
+  },
+  prevNextButton: { flexDirection: 'row', alignItems: 'center', gap: 4 },
+  prevNextPressed: { opacity: 0.7 },
+  prevNextLabel: { fontSize: 15 },
+  prevNextPlaceholder: { width: 80 },
 });
