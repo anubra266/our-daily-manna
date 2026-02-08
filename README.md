@@ -1,57 +1,105 @@
-# Welcome to your Expo app 👋
+# Our Daily Manna
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+A cross-platform devotional app built with Expo. Read daily devotionals, browse by category, save favorites, and listen to audio—with a daily reminder to keep you consistent.
 
-## Get started
+## Features
 
-1. Install dependencies
+- **Today’s devotional** — Focused home view with the current day’s reading
+- **Discover** — Browse devotionals by category with search and filter pills
+- **Library** — Save devotionals for later and access them quickly
+- **Reader** — Clean reading experience with key verse, message, and thought for the day; previous/next navigation within the same category
+- **Audio** — Play devotional audio when available, with a persistent mini player
+- **Daily reminder** — Optional push notification at your chosen time (category-aware)
+- **Streaks** — Track reading consistency
+- **Theming** — Light/dark mode and accent color
 
-   ```bash
-   npm install
-   ```
+## Tech stack
 
-2. Start the app
+- [Expo](https://expo.dev) (SDK 55) with [Expo Router](https://docs.expo.dev/router/introduction/) (file-based routing)
+- React 19, React Native
+- [TanStack Query](https://tanstack.com/query/latest) for data fetching and cache
+- SQLite (expo-sqlite) for offline caching
+- expo-notifications for daily reminders
+- expo-audio for devotional playback
+- EAS Build & Submit for iOS and Android
 
-   ```bash
-   npx expo start
-   ```
+## Getting started
 
-In the output, you'll find options to open the app in a
+### Prerequisites
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+- Node.js 18+
+- npm (or yarn/pnpm)
+- [Expo Go](https://expo.dev/go) (optional, for quick testing) or a [development build](https://docs.expo.dev/develop/development-builds/introduction/)
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
+### Install and run
 
 ```bash
-npm run reset-project
+# Install dependencies
+npm install
+
+# Start the dev server
+npx expo start
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+Then:
 
-## EAS Updates (OTA)
+- Press **i** for iOS simulator or **a** for Android emulator  
+- Or scan the QR code with Expo Go (with limitations; some features need a dev build)
 
-The app is configured for [expo-updates](https://docs.expo.dev/versions/latest/sdk/updates/). To enable over-the-air updates:
+For a full development build (notifications, audio, etc.):
 
-1. Run `eas init` to create/link an EAS project.
-2. In **app.json**, replace `YOUR_EAS_PROJECT_ID` in `expo.updates.url` with your EAS project ID (from the Expo dashboard or `eas project:info`).
+```bash
+npx expo run:ios
+# or
+npx expo run:android
+```
 
-## Learn more
+### Scripts
 
-To learn more about developing your project with Expo, look at the following resources:
+| Command | Description |
+|--------|-------------|
+| `npm start` | Start Expo dev server |
+| `npm run start:dev` | Start with dev client |
+| `npm run android` | Start and open on Android |
+| `npm run ios` | Start and open on iOS |
+| `npm run web` | Start for web |
+| `npm run generate-assets` | Regenerate app icon, splash, favicon from `assets/images/logo.svg` |
+| `npm run build` | Run EAS workflow for production builds |
+| `npm run lint` | Run ESLint |
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+## Project structure
 
-## Join the community
+```
+app/
+  (tabs)/
+    (home)/          # Today's devotional & reader
+    (library)/       # Saved devotionals
+    (search)/        # Discover by category & reader
+    (settings)/      # Reminder, accent, about
+  modal.tsx          # Shared modals (e.g. reminder time)
+components/          # UI components (audio player, glass pills, etc.)
+contexts/            # Accent color, audio, preferred category
+lib/
+  api/               # Devotionals API & WordPress
+  db/                # SQLite cache (devotionals, adjacent IDs)
+  notifications/     # Daily reminder scheduling
+  types/             # Devotional types
+```
 
-Join our community of developers creating universal apps.
+## Building for production
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+The app is set up for [EAS Build](https://docs.expo.dev/build/introduction/). Use the configured workflow or run builds manually:
+
+```bash
+# Install EAS CLI if needed
+npm i -g eas-cli
+
+# Log in and build
+eas build --platform all --profile production
+```
+
+Submit to stores with `eas submit` (see [EAS Submit](https://docs.expo.dev/submit/introduction/)).
+
+## License
+
+Private project.
