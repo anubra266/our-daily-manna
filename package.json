@@ -9,6 +9,7 @@
     "generate-assets": "node ./scripts/generate-assets-from-logo.mjs",
     "android": "expo run:android",
     "ios": "expo run:ios",
+    "ios:ipad": "expo run:ios -d \"iPad Pro 13-inch (M5)\"",
     "web": "expo start --web",
     "lint": "expo lint",
     "build": "npx eas-cli@latest workflow:run create-production-builds.yml"

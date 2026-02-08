@@ -90,7 +90,7 @@ export function MiniAudioPlayer() {
           },
         ]}
       >
-        <Ionicons name="musical-notes" size={18} color={accent} />
+        <Ionicons name="musical-notes" size={18} color={theme.text} />
       </View>
       <View style={styles.textWrap}>
         <ThemedText
@@ -118,12 +118,12 @@ export function MiniAudioPlayer() {
         disabled={isLoading}
       >
         {isLoading ? (
-          <ActivityIndicator size="small" color="#fff" />
+          <ActivityIndicator size="small" color={theme.text} />
         ) : (
           <Ionicons
             name={isPlaying ? "pause" : "play"}
             size={20}
-            color="#fff"
+            color={theme.text}
           />
         )}
       </Pressable>
