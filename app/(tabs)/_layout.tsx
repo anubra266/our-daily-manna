@@ -1,7 +1,7 @@
+import { Ionicons } from "@expo/vector-icons";
 import { NativeTabs } from "expo-router/unstable-native-tabs";
 import React from "react";
 import { DynamicColorIOS, Platform } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
 
 import { MiniAudioPlayer } from "@/components/mini-audio-player";
 import { useAccentColor } from "@/contexts/accent-color";
@@ -63,7 +63,9 @@ export default function TabLayout() {
       </NativeTabs.Trigger>
       <NativeTabs.Trigger name="(search)" role="search">
         <NativeTabs.Trigger.Label>Discover</NativeTabs.Trigger.Label>
-        <NativeTabs.Trigger.Icon sf={"magnifyingglass"} />
+        <NativeTabs.Trigger.Icon
+          sf={{ default: "magnifyingglass", selected: "magnifyingglass" }}
+        />
       </NativeTabs.Trigger>
       <NativeTabs.Trigger name="(settings)">
         <NativeTabs.Trigger.Label>Settings</NativeTabs.Trigger.Label>
