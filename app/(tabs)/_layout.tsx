@@ -63,9 +63,7 @@ export default function TabLayout() {
       </NativeTabs.Trigger>
       <NativeTabs.Trigger name="(search)" role="search">
         <NativeTabs.Trigger.Label>Discover</NativeTabs.Trigger.Label>
-        <NativeTabs.Trigger.Icon
-          sf={{ default: "magnifyingglass", selected: "magnifyingglass" }}
-        />
+        <NativeTabs.Trigger.Icon sf="magnifyingglass" />
       </NativeTabs.Trigger>
       <NativeTabs.Trigger name="(settings)">
         <NativeTabs.Trigger.Label>Settings</NativeTabs.Trigger.Label>
