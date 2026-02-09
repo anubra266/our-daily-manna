@@ -19,6 +19,7 @@ export const Colors = {
     card: '#F2F2F7',
     cardAlt: '#E5E5EA',
     muted: '#8E8E93',
+    tabsColor:"#7A7A7A",
   },
   dark: {
     text: '#ECEDEE',
@@ -30,6 +31,7 @@ export const Colors = {
     card: '#0D0D0D',
     cardAlt: '#141414',
     muted: '#8E8E93',
+    tabsColor:"#4A4A4A",
   },
 };
 
