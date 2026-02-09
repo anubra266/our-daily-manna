@@ -60,7 +60,6 @@
   "optionalDependencies": {
     "sharp": "^0.34.5"
   },
-  "private": true,
   "overrides": {
     "@expo/log-box": "55.0.5"
   }

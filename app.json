@@ -72,7 +72,8 @@
       "expo-sqlite",
       "expo-font",
       "expo-image",
-      "expo-audio"
+      "expo-audio",
+      "expo-web-browser"
     ],
     "experiments": {
       "typedRoutes": true,
