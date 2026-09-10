@@ -58,7 +58,7 @@
     "typescript": "~5.9.2"
   },
   "optionalDependencies": {
-    "sharp": "^0.34.5"
+    "sharp": "^0.35.4"
   },
   "overrides": {
     "@expo/log-box": "55.0.5"
